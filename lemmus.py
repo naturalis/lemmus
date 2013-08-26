@@ -25,4 +25,9 @@
 # - does stuff
 
 from lemmus import *
-print issue.bla
+#issue.getGithub()
+
+issue.getCurrentUserIssues()
+
+#init.initSubmodule('/home/atze/git/naturalis/puppet/modules/base/')
+init.initSubmodule()

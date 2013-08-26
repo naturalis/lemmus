@@ -1,8 +1,5 @@
 #!/usr/bin/python
-__all__ = ['issue']
-
-print 'hello i am init.py'
-
+__all__ = ['issue','init']
 
 
 
@@ -55,17 +52,19 @@ except ImportError:
 	print 'Error while import [helper] module \nConsider checking your pc since os should really be there you fool!'
 	exit(1)
 
-#global ConfigParser
-
+global configfilename
 configfilename = os.path.expanduser('~') + '/.lemmus'
+
+def getConfigFilename():
+	return configfilename
+
 if not os.path.isfile(configfilename):
 	print 'No config file found. Creating one'
 	helper.createNewConfig(configfilename)
 
 
-current_config = helper.getConfig(configfilename)
+current_config = helper.getUserNamePassword(configfilename)
 
 if not helper.checkGithubLogin(current_config['github_username'],current_config['github_password']):
 	helper.setUsernamePassword(configfilename)
 
-helper.setStatus(configfilename,'boe','piet')

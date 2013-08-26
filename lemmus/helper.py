@@ -4,23 +4,13 @@ import ConfigParser,os,getpass
 from github import *
 
 def createNewConfig( configfilename ):
-	config = ConfigParser.RawConfigParser()
-	config.add_section('Credentials')
-	config.add_section('Status')
-	
-
-	loginSucces = False
-	while loginSucces is False:
-		gh_login = getAndCheckGithubLogin()	
-		loginSucces = gh_login[0]
-
-	config.set('Credentials','github_username',gh_login[1])
-	config.set('Credentials','github_password',gh_login[2])
-	config.set('Status','current_repo','None')
-	with open(configfilename,'wb') as configfile:
-		config.write(configfile)
-		configfile.close()
-	os.chmod(configfilename,0600)
+	open(configfilename,'a').close()
+	setUsernamePassword(configfilename)
+	setStatus(configfilename,'current_repo','None')
+	setStatus(configfilename,'current_issue','None')
+	setStatus(configfilename,'repo_local_location','None')
+	setStatus(configfilename,'repo_meta_local_localtion','None')
+	setStatus(configfilename,'project_type','puppet_submodule')
 
 def getAndCheckGithubLogin():
 	#result = True
@@ -51,7 +41,7 @@ def checkGithubLogin(un,pw):
 		exit(1)
 	return result
 
-def getConfig(configfilename):
+def getUserNamePassword(configfilename):
 	config = ConfigParser.RawConfigParser()
 	config.read(configfilename)
 	config_data = {}
