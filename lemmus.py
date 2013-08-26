@@ -1,13 +1,15 @@
-# Lemmus defines 4 classes
+
+
+# Lemmus defines 4 groups
 #
 # Init
-# Init class intializes the lemmus user.
+# Init module intializes the lemmus user.
 # - registers github username password
 # - gets te relevant dir's and repo's for developing
 # - potentionally saves userdata locally (~/.lemmus) to ensure continuation after disaster
 #
 # Issue
-# Issue class manages software issues and provides a workflow for fixing, testing etc by using github issue tracking
+# Issue module manages software issues and provides a workflow for fixing, testing etc by using github issue tracking
 # - list current issues with creator and assignee and comments (or link to comments)
 # - add an issue
 # - close an issues
@@ -21,3 +23,6 @@
 # ArgumentParse
 # ArgumentPare class provides a parser for lemmus arguments and switches. Also provides the help
 # - does stuff
+
+from lemmus import *
+print issue.bla
