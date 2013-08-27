@@ -89,13 +89,32 @@ def createIssue():
 	sure= raw_input('Are you sure you want to this issue for repository ' + helper.getStatus(configfilename,'current_repo') + ' [y/n]:')
 	if not sure == 'y':
 		print 'Canceld by user input'
-	#gh_creds = helper.getUserNamePassword()
+	
 	assignee = gh.get_user(cred['github_username'])
 	repo = getCurrentRepo()
-	issue = repo.create_issue(issue_title,issue_description,assignee)
-	print str(issue.number)
-	print issue.title
-	print issue.body
+
+	yours = raw_input('Assign it to you name? [y/n]:')
+	if yours == 'y':
+		issue = repo.create_issue(issue_title,issue_description,assignee)
+	else:
+		issue = repo.create_issue(issue_title,issue_description)
+	print 'Issue created'
+	#gh_creds = helper.getUserNamePassword()
+	if yours == 'y':
+		want_it_now = raw_input('Do you want work on this issue now? [y/n]:')
+		if want_it_now == 'y':
+			helper.setStatus(configfilename,'current_issue',str(issue.number))
+			print 'TO BE IMPLEMENTED: Created branch #' + str(issue.number) + ' in ' + helper.getStatus(configfilename,'current_repo')
+			print 'Happy coding!'
+	
+			
+
+	#print str(issue.number)
+	#print issue.title
+	#print issue.body
+
+	return issue
+
 
 
 
