@@ -27,7 +27,12 @@
 from lemmus import *
 #issue.getGithub()
 
-issue.getCurrentUserIssues()
+#ssue.getCurrentUserIssues()
 
-#init.initSubmodule('/home/atze/git/naturalis/puppet/modules/base/')
-init.initSubmodule()
+init.initSubmodule('/home/atze/git/naturalis/puppet/modules/base/')
+
+#repo = 
+#issue.getAllRepoIssues(issue.getCurrentRepo())
+#issue.getIssue(7)
+issue.createIssue()
+#init.initSubmodule()

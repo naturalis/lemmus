@@ -80,7 +80,7 @@ def setStatus(configfilename,name,value):
 	config.write(configfile)
 	os.chmod(configfilename,0600)
 
-def getStatus(configfilename,name,value):
+def getStatus(configfilename,name):
 	config = ConfigParser.RawConfigParser()
 	config.read(configfilename)
 	if not config.has_section('Status'):
@@ -89,6 +89,10 @@ def getStatus(configfilename,name,value):
 	if not config.has_option('Status',name):
 		print 'ERROR: Option '+name+' not available ... exiting'
 		exit(12)
+	return config.get('Status',name)	
+
+
+
 
 
 

@@ -3,45 +3,53 @@
 from github import *
 import helper,os,sh
 
+configfilename = os.path.expanduser('~') + '/.lemmus'
 
-cred = helper.getUserNamePassword(configfilename = os.path.expanduser('~') + '/.lemmus')
+cred = helper.getUserNamePassword(configfilename)
 gh = Github(cred['github_username'],cred['github_password'])
-
-'''
-def getCurrentUserIssues():
-	issues = gh.get_user().get_issues()
-	issue_counter = 1
-	
-	for issue in issues:
-		d = issue.created_at
-		print '-[' + str(issue_counter) + ']----[ %02d' % d.year + '.' + '%02d' % d.month + '.' + '%02d' % d.day +']---------'
-		print 'Repository: \t' + issue.repository.name
-		print 'Issue Title:\t' + issue.title
-		print 'Issue Creator:\t' + issue.user.name
-		print '\n'
-		#print '[' + str(issue_counter) + ']\t-\t' + issue.title + '\t-\t' + issue.repository.name +'\t-\t'+ issue.user.name
-		issue_counter += 1
-'''
 
 
 
 def initSubmodule(repodir='.'):
-	meta_repodir = ''
+
 	if repodir == '.':
 		repodir = os.getcwd()
+
+	repodir =  os.path.normpath(repodir)
 
 	if not os.path.isfile(os.path.join(repodir,'.git')):
 		print 'ERROR: ' + repodir + ' is not a Git submodle ... exiting'
 		exit(2)
 
-	for i in range(1,len(repodir.split('/'))-2):
-    	meta_repodir += '/' + repodir.split('/')[i]
-	#print 'current puppet module dir: ' + cwd
+	print 'Current puppet module dir: ' + repodir
 
-	if not os.path.isdir(meta_repodir+'/.git'):
-   		print meta_repodir + ' seems not to be a good puppet meta directory. Reclone you git repo'
-    exit(2)
-
+	#go down two directory's for meta repo 
+	meta_repodir = os.path.dirname(repodir)
+	meta_repodir = os.path.dirname(meta_repodir)
+	
+	if not os.path.isdir(os.path.join(meta_repodir,'.git')):
+   		print meta_repodir + ' seems not to be a good puppet meta directory. Reclone you git repo ... exiting'
+   		exit(2)
 	print 'puppet meta dir: ' + meta_repodir
+	helper.setStatus(configfilename,'repo_local_location',repodir)
+	helper.setStatus(configfilename,'repo_meta_local_location',meta_repodir)
+
+	git = sh.git.bake(_cwd=repodir)
+	remote_origin = git.remote('show','origin')
+	current_git_repo = remote_origin.splitlines()[1].split('/')[-1]
+	print 'Current repository you want to work in: [' + current_git_repo + ']'
+	org_repos = gh.get_organization('naturalis').get_repos()
+	repo = None
+	for r in org_repos:
+		if str(r.name).strip() == str(current_git_repo).strip():
+			repo = r
+			print 'Found repository [' + r.name + '] found on Github'
+			break
+	helper.setStatus(configfilename,'current_repo',repo.name)
+
+
+
+
+
 
 	
