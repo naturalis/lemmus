@@ -29,10 +29,10 @@ from lemmus import *
 
 #ssue.getCurrentUserIssues()
 
-init.initSubmodule('/home/atze/git/naturalis/puppet/modules/base/')
+#init.initSubmodule('/home/atze/git/naturalis/puppet/modules/base/')
 
 #repo = 
 #issue.getAllRepoIssues(issue.getCurrentRepo())
 #issue.getIssue(7)
-issue.createIssue()
+issue.openCurrentIssue()
 #init.initSubmodule()

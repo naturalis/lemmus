@@ -1,6 +1,6 @@
 # lemmus helper functions
 
-import ConfigParser,os,getpass
+import ConfigParser,os,getpass,sh
 from github import *
 
 def createNewConfig( configfilename ):
@@ -89,7 +89,11 @@ def getStatus(configfilename,name):
 	if not config.has_option('Status',name):
 		print 'ERROR: Option '+name+' not available ... exiting'
 		exit(12)
-	return config.get('Status',name)	
+	return config.get('Status',name)
+
+def getGitVersion():
+	git = sh.git.bake(_cwd=getStatus(configfilename,'repo_local_location'))
+	return git.version().split(' ')[2]	
 
 
 

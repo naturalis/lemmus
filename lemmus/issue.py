@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 from github import *
-import helper,os
+import helper,os,sh
 
 global repo
 
@@ -96,24 +96,95 @@ def createIssue():
 	yours = raw_input('Assign it to you name? [y/n]:')
 	if yours == 'y':
 		issue = repo.create_issue(issue_title,issue_description,assignee)
-	else:
-		issue = repo.create_issue(issue_title,issue_description)
-	print 'Issue created'
-	#gh_creds = helper.getUserNamePassword()
-	if yours == 'y':
+		print 'Issue created'
 		want_it_now = raw_input('Do you want work on this issue now? [y/n]:')
 		if want_it_now == 'y':
 			helper.setStatus(configfilename,'current_issue',str(issue.number))
 			print 'TO BE IMPLEMENTED: Created branch #' + str(issue.number) + ' in ' + helper.getStatus(configfilename,'current_repo')
 			print 'Happy coding!'
+	else:
+		issue = repo.create_issue(issue_title,issue_description)
+		print 'Issue created'
 	
-			
-
 	#print str(issue.number)
 	#print issue.title
 	#print issue.body
 
-	return issue
+	#return issue
+
+
+
+def openCurrentIssue():
+	repo = getCurrentRepo()
+	issueID = helper.getStatus(configfilename,'current_issue')
+	try:
+		issue = repo.get_issue(int(issueID))
+	except UnknownObjectException:
+		print 'Issue with ID: ' + str(issueID) + ' not found ... exiting'
+		exit(2)
+	createBranch('#'+issueID)
+
+def createBranch(branchName):
+	git = sh.git.bake(_cwd=helper.getStatus(configfilename,'repo_local_location'))
+	git_meta = sh.git.bake(_cwd=helper.getStatus(configfilename,'repo_meta_local_location'))
+	
+	try:
+		git_meta.checkout('master')
+	except:
+		print 'FATAL: Unable to switch to master branch of meta repository. .. exiting'
+		exit(2)
+	
+	try:
+		git_meta.pull()
+	except:
+		print 'WARNING: Unable to pull latest updates of master of the meta repository on Github'
+		if not raw_input('Continue? [y/n]') == 'y':
+			print 'Did not switch to branch ' + branchName
+			exit(2)
+	
+	try:
+		git.checkout('master')
+	except:
+		print 'FATAL: Unable to switch to master branch of submodule ... exiting'
+		exit(2)
+	
+	try:
+		git.pull()
+	except:
+		print 'WARNING: Unable to pull latest updates of master of the submodule on Github'
+		if not raw_input('Continue? [y/n]') == 'y':
+			print 'Did not switch to branch ' + branchName
+			exit(2)
+	
+	try:
+		git.checkout(branchName)
+	except:
+		git.checkout('-b',branchName)
+	
+	try:
+		git.push('origin',branchName)
+	except:
+		print 'WARNING: Unable to push ' + branchName + ' to Github'
+	
+	#git.branch('--set-upstream','origin',branchName)
+	#exit(3)
+
+	
+
+	if int(git.version().split(' ')[2].split('.')[1]) < 8:
+		try:
+			git.branch('--set-upstream','origin',branchName)
+		except:
+			print 'WARNING: Unable to set upstream'
+	else:
+		try:
+			git.branch('-u','origin/'+branchName)
+		except:
+			print 'WARNING: Unable to set upstream'
+	
+
+
+
 
 
 
