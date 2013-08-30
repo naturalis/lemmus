@@ -24,8 +24,26 @@
 # ArgumentPare class provides a parser for lemmus arguments and switches. Also provides the help
 # - does stuff
 
+import sys
 from lemmus import *
 #issue.getGithub()
+
+
+if len(sys.argv) == 1:
+	print 'no arugments given. Run lemmus help for help'
+	exit(1)
+argument = ''
+for i in range(1,len(sys.argv)):
+	argument += sys.argv[i] + ' '
+
+if argument == 'help ':
+	print 'this is a help message \n containing very \n very\nvery\nmuch\nlinies\n.\n.\n.'
+elif argument == 'issue current ':
+	issue.printIssue(issue.getCurrentIssue())
+elif argument == 'issue repo ':
+	print issue.getCurrentRepo().name
+else:
+	print 'Invalid arugment. Run lemmus help for help '
 
 #ssue.getCurrentUserIssues()
 
@@ -34,5 +52,7 @@ from lemmus import *
 #repo = 
 #issue.getAllRepoIssues(issue.getCurrentRepo())
 #issue.getIssue(7)
-issue.openCurrentIssue()
+#issue.openCurrentIssue()
+#a = issue.getCurrentRepo()
+#print a.name
 #init.initSubmodule()
