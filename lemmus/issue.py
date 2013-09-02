@@ -28,8 +28,12 @@ def getCurrentUserIssues():
 		issue_counter += 1
 
 def getGithubRepo(reponame):
-	return gh.get_organization('naturalis').get_repo(reponame)
-	
+	try:
+		repo = gh.get_organization('naturalis').get_repo(reponame)
+	except:
+		print 'Cannot find repository: ' + reponame
+		exit(2)
+	return repo
 	#repo = None
 	#for r in org_repos:
 	#	if str(r.name).strip() == str(reponame).strip():
@@ -106,8 +110,9 @@ def createIssue():
 		print 'Issue created'
 		want_it_now = raw_input('Do you want work on this issue now? [y/n]:')
 		if want_it_now == 'y':
-			helper.setStatus(configfilename,'current_issue',str(issue.number))
-			print 'TO BE IMPLEMENTED: Created branch #' + str(issue.number) + ' in ' + helper.getStatus(configfilename,'current_repo')
+			#helper.setStatus(configfilename,'current_issue',str(issue.number))
+			#print 'TO BE IMPLEMENTED: Created branch #' + str(issue.number) + ' in ' + helper.getStatus(configfilename,'current_repo')
+			openCurrentIssue(issue.number)
 			print 'Happy coding!'
 	else:
 		issue = repo.create_issue(issue_title,issue_description)
@@ -117,11 +122,11 @@ def takeIssue(issueID):
 	assignee = gh.get_user(cred['github_username'])
 	repo = getCurrentRepo()
 	issue = getIssue(issueID)
-	issue.edit(assignee=assignee)	
+	issue.edit(assignee=assignee)
 
-def openCurrentIssue():
-	repo = getCurrentRepo()
-	issueID = helper.getStatus(configfilename,'current_issue')
+def openCurrentIssue(issueID):
+	#repo = getCurrentRepo()
+	issueID = helper.setStatus(configfilename,'current_issue')
 	createBranch('#'+issueID)
 
 def createBranch(branchName):

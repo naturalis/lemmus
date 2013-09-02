@@ -47,7 +47,18 @@ def initSubmodule(repodir='.'):
 			break
 	helper.setStatus(configfilename,'current_repo',repo.name)
 
+def showStatus():
+	un = helper.getUserNamePassword(configfilename)
+	print 'Current status'
+	print 'Github username:\t\t' + un['github_username']
+	print 'Github password:\t\tl3mmu$_is_cool_and'
+	print 'Repository:\t\t\t' + helper.getStatus(configfilename,'current_repo')
+	print 'Issue:\t\t\t\t' + helper.getStatus(configfilename,'current_issue')
+	print 'Repository directory: \t\t' + helper.getStatus(configfilename,'repo_local_location')
+	print 'Meta repository directory:\t' + helper.getStatus(configfilename,'repo_meta_local_location')
 
+def resetStatus():
+	print 'To be implemented'
 
 
 
