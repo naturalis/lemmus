@@ -58,7 +58,7 @@ def showStatus():
 	print 'Meta repository directory:\t' + helper.getStatus(configfilename,'repo_meta_local_location')
 
 def resetStatus():
-	print 'To be implemented'
+	print 'To be implemented. You can just delete ~/.lemmus'
 
 
 

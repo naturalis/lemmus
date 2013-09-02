@@ -45,6 +45,7 @@ def getAllRepoIssues(repoObject):
 	issues = repoObject.get_issues()
 	#issue_counter = 1
 	for issue in issues:
+		'''
 		d = issue.created_at
 		assignee = None
 		if assignee is None:
@@ -57,6 +58,8 @@ def getAllRepoIssues(repoObject):
 		print 'Created:\t%02d' % d.year + ' - ' + '%02d' % d.month + ' - ' + '%02d' % d.day
 		print 'Title:\t\t' + issue.title
 		print 'Assignee:\t' + assignee + '\n'
+		'''
+		printIssue(issue)
 
 def getCurrentIssue():
 	return getIssue(int(helper.getStatus(configfilename,'current_issue')))
@@ -85,7 +88,7 @@ def printIssue(issueObject):
 	print 'Created:\t%02d' % d.year + '/' + '%02d' % d.month + '/' + '%02d' % d.day
 	print 'Title:\t\t' + issueObject.title
 	print 'Assignee:\t' + assignee 
-	print 'Description:\t' + issueObject.body
+	print 'Description:\t' + str(issueObject.body)
 	for comment in comments:
 		print '\n'
 		print '\tComment by:\t' + comment.user.name
@@ -112,7 +115,7 @@ def createIssue():
 		if want_it_now == 'y':
 			#helper.setStatus(configfilename,'current_issue',str(issue.number))
 			#print 'TO BE IMPLEMENTED: Created branch #' + str(issue.number) + ' in ' + helper.getStatus(configfilename,'current_repo')
-			openCurrentIssue(issue.number)
+			openIssue(issue.number)
 			print 'Happy coding!'
 	else:
 		issue = repo.create_issue(issue_title,issue_description)
@@ -124,10 +127,12 @@ def takeIssue(issueID):
 	issue = getIssue(issueID)
 	issue.edit(assignee=assignee)
 
-def openCurrentIssue(issueID):
+def openIssue(issueID):
 	#repo = getCurrentRepo()
-	issueID = helper.setStatus(configfilename,'current_issue')
-	createBranch('#'+issueID)
+	helper.setStatus(configfilename,'current_issue',issueID)
+	createBranch('#'+str(issueID))
+	#print str(issueID)
+
 
 def createBranch(branchName):
 	git = sh.git.bake(_cwd=helper.getStatus(configfilename,'repo_local_location'))

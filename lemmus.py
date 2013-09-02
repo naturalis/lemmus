@@ -39,17 +39,19 @@ def issue_parser(arg):
 	elif not arg.add is None:
 		issue.createIssue()
 	elif not arg.close is None:
-		print arg.close
+		print 'not yet implemented'
 	elif not arg.take is None:
-		print arg.take
+		issue.takeIssue(arg.take)
+	elif not arg.open is None:
+		issue.openIssue(arg.open)		
 	elif not arg.commit is None:
-		print arg.commit
+		issue.commit(arg.commit)
 	elif not arg.test is None:
-		print arg.test
+		issue.test()
 	else:
 		print 'going for nothing'
 
-		
+
 def init_parser(arg):
 	if not arg.repo is None:
 		if arg.repo == 'current':
