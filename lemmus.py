@@ -39,7 +39,7 @@ def issue_parser(arg):
 	elif not arg.add is None:
 		issue.createIssue()
 	elif not arg.close is None:
-		print 'not yet implemented'
+		issue.closeIssue(issue.getCurrentIssue().number)
 	elif not arg.take is None:
 		issue.takeIssue(arg.take)
 	elif not arg.open is None:
@@ -66,6 +66,9 @@ def status_parser(arg):
 		init.showStatus()
 	else:
 		print 'going for noting'
+
+def review_parser(arg):
+	print 'bhoe!'
 
 
 

@@ -45,20 +45,6 @@ def getAllRepoIssues(repoObject):
 	issues = repoObject.get_issues()
 	#issue_counter = 1
 	for issue in issues:
-		'''
-		d = issue.created_at
-		assignee = None
-		if assignee is None:
-			assignee = 'Nobody'
-		else:
-			assignee = issue.assignee.name
-
-		print '--------------------------------------------------------------------------------------------'
-		print 'Number:\t\t' + str(issue.number)
-		print 'Created:\t%02d' % d.year + ' - ' + '%02d' % d.month + ' - ' + '%02d' % d.day
-		print 'Title:\t\t' + issue.title
-		print 'Assignee:\t' + assignee + '\n'
-		'''
 		printIssue(issue)
 
 def getCurrentIssue():

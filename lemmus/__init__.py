@@ -1,5 +1,5 @@
 #!/usr/bin/python
-__all__ = ['issue','init']
+__all__ = ['issue','init','review']
 
 
 
