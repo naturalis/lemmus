@@ -96,5 +96,5 @@ def mergeWithMaster():
 	git.push('master')
 	git_meta.push('master')
 
-def deleteBrach(repository,branch):
+def deleteBrach():
 	print 'To be implemented'

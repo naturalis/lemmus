@@ -58,7 +58,12 @@ def showStatus():
 	print 'Meta repository directory:\t' + helper.getStatus(configfilename,'repo_meta_local_location')
 
 def resetStatus():
-	print 'To be implemented. You can just delete ~/.lemmus'
+	helper.setStatus(configfilename,'current_repo','None')
+	helper.setStatus(configfilename,'current_issue','None')
+	helper.setStatus(configfilename,'repo_local_location','None')
+	helper.setStatus(configfilename,'repo_meta_local_location','None')
+	helper.setStatus(configfilename,'project_type','puppet_submodule')
+	print 'All repository information set to None'
 
 
 

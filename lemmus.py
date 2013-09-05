@@ -64,12 +64,19 @@ def init_parser(arg):
 def status_parser(arg):
 	if not arg.show is None:
 		init.showStatus()
+	elif not arg.reset is None:
+		init.resetStatus()
 	else:
 		print 'going for noting'
 
 def review_parser(arg):
-	print 'bhoe!'
-
+	if not arg.merge is None:
+		#init.showStatus()
+		review.mergeWithMaster()
+	elif not arg.clean is None:
+		review.deleteBrach()
+	else:
+		print 'going for noting'
 
 
 parser = argparse.ArgumentParser(description='Helps the workflow puppet module www.github.com/naturalis/lemmus  ')
@@ -122,7 +129,7 @@ parser_init.add_argument('-repo',
 							metavar='puppet submodule directory')
 
 
-parser_status = subparsers.add_parser('status', help='arguments for initialization')
+parser_status = subparsers.add_parser('status', help='arguments for show status')
 parser_status.set_defaults(func=status_parser)
 parser_status.add_argument('-show',
 							help='show current status',
@@ -134,6 +141,20 @@ parser_status.add_argument('-reset',
 							nargs='?',
 							const='current',
 							metavar='')
+
+parser_review = subparsers.add_parser('review', help='arguments for initialization')
+parser_review.set_defaults(func=review_parser)
+parser_review.add_argument('-merge',
+							help='merge current topic branch to master and meta repo master',
+							nargs='?',
+							const='current',
+							metavar='')
+parser_review.add_argument('-clean',
+							help='TO BE IMPLEMENTED - remove topic branch from master ',
+							nargs='?',
+							const='current',
+							metavar='')
+
 
 args = parser.parse_args()
 args.func(args)
