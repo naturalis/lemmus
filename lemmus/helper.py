@@ -9,7 +9,7 @@ def createNewConfig( configfilename ):
 	setStatus(configfilename,'current_repo','None')
 	setStatus(configfilename,'current_issue','None')
 	setStatus(configfilename,'repo_local_location','None')
-	setStatus(configfilename,'repo_meta_local_localtion','None')
+	setStatus(configfilename,'repo_meta_local_location','None')
 	setStatus(configfilename,'project_type','puppet_submodule')
 
 def getAndCheckGithubLogin():
