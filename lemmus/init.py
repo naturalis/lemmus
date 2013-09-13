@@ -65,6 +65,7 @@ def resetStatus():
 	helper.setStatus(configfilename,'project_type','puppet_submodule')
 	print 'All repository information set to None'
 
-
-
+def initRepository(obj):
+	
+	print 'initializing ' + obj + ' as git directory '
 	

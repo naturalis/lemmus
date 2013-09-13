@@ -1,3 +1,4 @@
+#!/usr/bin/python
 
 
 # Lemmus defines 4 groups
@@ -53,11 +54,13 @@ def issue_parser(arg):
 
 
 def init_parser(arg):
-	if not arg.repo is None:
-		if arg.repo == 'current':
+	if not arg.submodule is None:
+		if arg.submodule == 'current':
 			init.initSubmodule()
 		else:
 			init.initSubmodule(arg.repo)
+	if not arg.repo is None:
+		init.initRepository(arg.repo)
 	else:
 		print 'going for nothing'
 
@@ -122,10 +125,15 @@ parser_issue.add_argument('-test',
 
 parser_init = subparsers.add_parser('init', help='arguments for initialization')
 parser_init.set_defaults(func=init_parser)
-parser_init.add_argument('-repo',
+parser_init.add_argument('-submodule',
 							help='initialize directory as current working directory',
 							nargs='?',
 							const='current',
+							metavar='puppet submodule directory')
+parser_init.add_argument('-repo',
+							help='initialize directory as current working directory',
+							nargs='?',
+							const='.',
 							metavar='puppet submodule directory')
 
 

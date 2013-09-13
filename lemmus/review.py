@@ -25,23 +25,23 @@ def mergeWithMaster():
 		exit(2)
 	
 	try:
-		git_meta.pull()
+		git_meta.fetch()
 	except:
-		print 'WARNING: Unable to pull latest updates of master of the meta repository on Github'
+		print 'WARNING: Unable to fetch latest updates of master of the meta repository on Github'
 		if not raw_input('Continue? [y/n]') == 'y':
 			print 'Canceld by user input'
 			exit(2)
 
 	try:
-		git_meta.checkout('#'+issue)
+		git_meta.checkout(helper.getStatus(configfilename,'current_repo')+'#'+issue)
 	except:
-		print 'FATAL: Unable to switch to #'+issue+' branch of meta repository. .. exiting'
+		print 'FATAL: Unable to switch to '+helper.getStatus(configfilename,'current_repo')+'#'+issue+' branch of meta repository. .. exiting'
 		exit(2)
 	
 	try:
-		git_meta.pull()
+		git_meta.fetch()
 	except:
-		print 'WARNING: Unable to pull latest updates of #'+issue+' of the meta repository on Github'
+		print 'WARNING: Unable to fetch latest updates of '+helper.getStatus(configfilename,'current_repo')+'#'+issue+' of the meta repository on Github'
 		if not raw_input('Continue? [y/n]') == 'y':
 			print 'Canceld by user input'
 			exit(2)
@@ -53,9 +53,9 @@ def mergeWithMaster():
 		exit(2)
 	
 	try:
-		git.pull()
+		git.fetch()
 	except:
-		print 'WARNING: Unable to pull latest updates of master of the submodule on Github'
+		print 'WARNING: Unable to fetch latest updates of master of the submodule on Github'
 		if not raw_input('Continue? [y/n]') == 'y':
 			print 'Canceld by user input'
 			exit(2)
@@ -67,9 +67,9 @@ def mergeWithMaster():
 		exit(2)
 	
 	try:
-		git.pull()
+		git.fetch()
 	except:
-		print 'WARNING: Unable to pull latest updates of #'+issue+' of the submodule on Github'
+		print 'WARNING: Unable to fetch latest updates of #'+issue+' of the submodule on Github'
 		if not raw_input('Continue? [y/n]') == 'y':
 			print 'Canceld by user input'
 			exit(2)
@@ -78,6 +78,7 @@ def mergeWithMaster():
 	git.merge('master')
 	print 'Merging #' + issue + ' --> master'
 	git.checkout('master')
+	git.merge('#'+issue)
 	
 
 	
@@ -93,8 +94,8 @@ def mergeWithMaster():
 		print 'Canceld by user'
 		exit(2)
 
-	git.push('master')
-	git_meta.push('master')
+	git.push('origin','master')
+	git_meta.push('origin','master')
 
 def deleteBrach():
 	print 'To be implemented'

@@ -199,6 +199,7 @@ def test():
 	git = sh.git.bake(_cwd=helper.getStatus(configfilename,'repo_local_location'))
 	git_meta = sh.git.bake(_cwd=helper.getStatus(configfilename,'repo_meta_local_location'))
 	branchName = '#' + helper.getStatus(configfilename,'current_issue')
+	metaBranchName = helper.getStatus(configfilename,'current_repo') + branchName
 	try:
 		git_meta.checkout('master')
 	except:
@@ -211,9 +212,9 @@ def test():
 		exit(2)
 
 	try:
-		git_meta.checkout(branchName)
+		git_meta.checkout(metaBranchName)
 	except:
-		git_meta.checkout('-b',branchName)
+		git_meta.checkout('-b',metaBranchName)
 	
 	git.checkout(branchName)
 
@@ -222,19 +223,19 @@ def test():
 	git_meta.commit('-a',m='Changed reference of module ' + helper.getStatus(configfilename,'current_repo') + 'to HEAD of ' + branchName)
 
 	try:
-		git_meta.push('origin',branchName)
+		git_meta.push('origin',metaBranchName)
 	except:
-		print 'WARNING: Unable to push ' + branchName + ' to Github'
+		print 'WARNING: Unable to push ' + metaBranchName + ' to Github'
 
 
 	if int(git_meta.version().split(' ')[2].split('.')[1]) < 8:
 		try:
-			git_meta.branch('--set-upstream','origin',branchName)
+			git_meta.branch('--set-upstream','origin',metaBranchName)
 		except:
 			print 'WARNING: Unable to set upstream'
 	else:
 		try:
-			git_meta.branch('-u','origin/'+branchName)
+			git_meta.branch('-u','origin/'+metaBranchName)
 		except:
 			print 'WARNING: Unable to set upstream'
 

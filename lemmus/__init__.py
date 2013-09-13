@@ -65,6 +65,6 @@ if not os.path.isfile(configfilename):
 
 current_config = helper.getUserNamePassword(configfilename)
 
-if not helper.checkGithubLogin(current_config['github_username'],current_config['github_password']):
-	helper.setUsernamePassword(configfilename)
+#if not helper.checkGithubLogin(current_config['github_username'],current_config['github_password']):
+#	helper.setUsernamePassword(configfilename)
 
