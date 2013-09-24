@@ -24,8 +24,13 @@
 # ArgumentParse
 # ArgumentParse class provides a parser for lemmus arguments and switches. Also provides the help
 # - does stuff
+try:
+	import argparse
+except ImportError:
+	print 'Error while importing [argparse] module \n Consider installing it by running: \npip install argparse'
+	exit(1)
 
-import argparse
+#import argparse
 from lemmus import *
 #issue.getGithub()
 
